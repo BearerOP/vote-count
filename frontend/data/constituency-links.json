@@ -1,16 +1,13 @@
 {
   "constituencies": [
     {
-      "name": "पटना साहिब",
-      "key": "patna-sahib",
-      "hashedUrl": "http://localhost:3000/07d42763049ceb375efe39d27c68970355281a52544f6289b437941a80b021c7",
-      "hash": "07d42763049ceb375efe39d27c68970355281a52544f6289b437941a80b021c7"
-    },
-    {
-      "name": "बांकीपुर",
-      "key": "bankipore",
-      "hashedUrl": "http://localhost:3000/c41f7cd41b39a4bca14d8cd72c1276c9bc3387c89cd7e19bac35bdea3ed9d9a4",
-      "hash": "c41f7cd41b39a4bca14d8cd72c1276c9bc3387c89cd7e19bac35bdea3ed9d9a4"
+      "name": "सिंहेश्वर",
+      "key": "sinheshwar",
+      "district": "मधुबनी",
+      "hashedUrl": "http://localhost:3000/98bc330bf48a82cfc7108725b8d9a7b872f2c7715dda11e08af1fdc1d23f55ea",
+      "hash": "98bc330bf48a82cfc7108725b8d9a7b872f2c7715dda11e08af1fdc1d23f55ea",
+      "totalBooths": 371,
+      "totalVoters": 328212
     }
   ]
 }

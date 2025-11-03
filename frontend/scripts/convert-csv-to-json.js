@@ -84,12 +84,14 @@ function convertCSVToJSON(csvFilePath, mobileNumbers = []) {
 
   const constituencies = {};
 
+  // Group by AC and Polling Station No., tracking Main and Auxiliary entries
   rows.forEach(row => {
     const acFullName = row['AC No. & Name'];
     const pollingStationNo = row['Polling Station No.'];
     const pollingStationName = row['Polling Station Name'];
-    const mainAux = row['Main/Auxiliary Polling Station (M/A)'];
-    const electorTo = parseInt(row['Elector Serial No. To']);
+    const mainOrAux = row['Main/Auxiliary Polling Station (M/A)'];
+    const electorToRaw = row['Elector Serial No. To'];
+    const electorTo = Number.isFinite(parseInt(electorToRaw)) ? parseInt(electorToRaw) : 0;
 
     if (!acFullName || !pollingStationNo) return;
 
@@ -103,64 +105,92 @@ function convertCSVToJSON(csvFilePath, mobileNumbers = []) {
         name: acName,
         district: district,
         mobileNumbers: mobileNumbers,
-        booths: []
+        booths: {}
       };
     }
 
-    // Find or create booth
-    let booth = constituencies[acKey].booths.find(b => b.number === pollingStationNo);
-    if (!booth) {
-      booth = {
-        name: pollingStationName,
-        number: pollingStationNo,
-        pollingStations: []
+    // Initialize booth group if not exists
+    if (!constituencies[acKey].booths[pollingStationNo]) {
+      constituencies[acKey].booths[pollingStationNo] = {
+        main: null,
+        auxiliaries: []
       };
-      constituencies[acKey].booths.push(booth);
     }
 
-    // Determine polling station label
-    let psLabel;
-    if (mainAux === 'Main' && booth.pollingStations.length === 0) {
-      psLabel = 'मुख्य मतदान केंद्र';
-    } else {
-      psLabel = `मतदान केंद्र ${booth.pollingStations.length + 1}`;
-    }
+    const boothGroup = constituencies[acKey].booths[pollingStationNo];
+    const entry = {
+      name: pollingStationName,
+      voters: electorTo
+    };
 
-    // Add polling station
-    const psNumber = `${pollingStationNo}-${String.fromCharCode(65 + booth.pollingStations.length)}`;
-    booth.pollingStations.push({
-      name: psLabel,
-      number: psNumber,
-      totalVoters: electorTo
-    });
+    // Store Main or Auxiliary entry
+    if (mainOrAux === 'Main') {
+      boothGroup.main = entry;
+    } else if (mainOrAux === 'Auxiliary') {
+      boothGroup.auxiliaries.push(entry);
+    }
   });
 
-  // Clean up: For booths with single polling station, keep the max voter count
-  // For booths with multiple polling stations, keep individual counts
+  // Finalize structure: Main becomes the booth, Auxiliaries become polling stations
   Object.keys(constituencies).forEach(key => {
-    constituencies[key].booths.forEach(booth => {
-      if (booth.pollingStations.length === 1) {
-        // Single polling station - keep as is
+    const boothGroups = constituencies[key].booths;
+    const finalBooths = [];
+
+    // Sort booth numbers numerically
+    const sortedBoothNos = Object.keys(boothGroups).sort((a, b) => parseInt(a) - parseInt(b));
+
+    sortedBoothNos.forEach(boothNo => {
+      const group = boothGroups[boothNo];
+
+      if (!group.main) return; // Skip if no Main entry
+
+      const pollingStations = [];
+
+      // If there are auxiliary stations, add Main and Auxiliaries as separate polling stations
+      if (group.auxiliaries.length > 0) {
+        // Add Main as first polling station
+        pollingStations.push({
+          name: group.main.name,
+          number: `${boothNo}-A`,
+          totalVoters: group.main.voters
+        });
+
+        // Add Auxiliaries as subsequent polling stations
+        group.auxiliaries.forEach((aux, index) => {
+          pollingStations.push({
+            name: aux.name,
+            number: `${boothNo}-${String.fromCharCode(66 + index)}`, // B, C, D, etc.
+            totalVoters: aux.voters
+          });
+        });
       } else {
-        // Multiple polling stations - ensure proper numbering
-        booth.pollingStations.forEach((ps, index) => {
-          ps.name = `मतदान केंद्र ${index + 1}`;
+        // No auxiliaries, just add Main as single polling station
+        pollingStations.push({
+          name: 'मतदान केंद्र 1',
+          number: `${boothNo}-A`,
+          totalVoters: group.main.voters
         });
       }
+
+      // Calculate max voters for the booth (max of all polling stations)
+      const maxVoters = Math.max(...pollingStations.map(ps => ps.totalVoters));
+
+      finalBooths.push({
+        name: group.main.name,
+        number: boothNo,
+        pollingStations: pollingStations
+      });
     });
 
-    // Sort booths by number
-    constituencies[key].booths.sort((a, b) => {
-      return parseInt(a.number) - parseInt(b.number);
-    });
+    constituencies[key].booths = finalBooths;
   });
 
   return constituencies;
 }
 
 // Main execution
-const csvFilePath = process.argv[2] || '/Users/bearer/Downloads/Jan Suraaj/my-app/data/1-Paschim Champaran - Sheet1.csv';
-const outputFilePath = process.argv[3] || '/Users/bearer/Downloads/Jan Suraaj/my-app/data/generated-constituencies.json';
+const csvFilePath = process.argv[2] || '/Users/bearer/Downloads/Jan Suraaj/vote-count/frontend/data/1-Paschim Champaran - Sheet1.csv';
+const outputFilePath = process.argv[3] || '/Users/bearer/Downloads/Jan Suraaj/vote-count/frontend/data/generated-constituencies.json';
 
 // You can add default mobile numbers here
 const defaultMobileNumbers = [

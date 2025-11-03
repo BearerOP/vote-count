@@ -109,8 +109,11 @@ export default function SelectBoothPage() {
           <h1 className="text-2xl font-semibold text-gray-900 mb-2">
             अपना बूथ चुनें
           </h1>
-          <p className="text-sm text-gray-600 mb-6">
+          <p className="text-sm text-gray-600">
             {constituency?.name}, {constituency?.district}
+          </p>
+          <p className="text-sm font-medium text-amber-600 mt-1 mb-6">
+            कुल बूथ: {constituency?.booths?.length || 0}
           </p>
 
           <div className="space-y-4">
