@@ -1,0 +1,102 @@
+{
+  "patna-sahib": {
+    "name": "पटना साहिब",
+    "district": "पटना",
+    "mobileNumbers": [
+      "8302524658",
+      "9876543211",
+      "9876543212",
+      "9518074060"
+    ],
+    "booths": [
+      {
+        "name": "गांधी मैदान प्राथमिक विद्यालय",
+        "number": "001",
+        "pollingStations": [
+          {
+            "name": "मतदान केंद्र 1",
+            "number": "001-A",
+            "totalVoters": 1500
+          },
+          {
+            "name": "मतदान केंद्र 2",
+            "number": "001-B",
+            "totalVoters": 1200
+          }
+        ]
+      },
+      {
+        "name": "शास्त्री नगर सामुदायिक भवन",
+        "number": "002",
+        "pollingStations": [
+          {
+            "name": "मतदान केंद्र 1",
+            "number": "002-A",
+            "totalVoters": 1800
+          }
+        ]
+      },
+      {
+        "name": "मॉडल स्कूल पटना",
+        "number": "003",
+        "pollingStations": [
+          {
+            "name": "मतदान केंद्र 1",
+            "number": "003-A",
+            "totalVoters": 2000
+          },
+          {
+            "name": "मतदान केंद्र 2",
+            "number": "003-B",
+            "totalVoters": 1600
+          },
+          {
+            "name": "मतदान केंद्र 3",
+            "number": "003-C",
+            "totalVoters": 1400
+          }
+        ]
+      }
+    ]
+  },
+  "bankipore": {
+    "name": "बांकीपुर",
+    "district": "पटना",
+    "mobileNumbers": [
+      "8302524658",
+      "9876543213",
+      "9876543214",
+      "9876543215",
+      "9518074060"
+    ],
+    "booths": [
+      {
+        "name": "बांकीपुर हाई स्कूल",
+        "number": "001",
+        "pollingStations": [
+          {
+            "name": "मतदान केंद्र 1",
+            "number": "001-A",
+            "totalVoters": 1700
+          },
+          {
+            "name": "मतदान केंद्र 2",
+            "number": "001-B",
+            "totalVoters": 1300
+          }
+        ]
+      },
+      {
+        "name": "टाउन हॉल बांकीपुर",
+        "number": "002",
+        "pollingStations": [
+          {
+            "name": "मतदान केंद्र 1",
+            "number": "002-A",
+            "totalVoters": 1900
+          }
+        ]
+      }
+    ]
+  }
+}

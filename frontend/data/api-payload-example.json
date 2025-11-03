@@ -1,0 +1,55 @@
+{
+  "voteSubmission": {
+    "constituency": {
+      "key": "patna-sahib",
+      "name": "पटना साहिब",
+      "district": "पटना"
+    },
+    "booth": {
+      "name": "गांधी मैदान प्राथमिक विद्यालय",
+      "number": "001"
+    },
+    "pollingStation": {
+      "name": "मतदान केंद्र 1",
+      "number": "001-A",
+      "totalVoters": 1500
+    },
+    "user": {
+      "mobileNumber": "8302524658"
+    },
+    "voteCounts": {
+      "totalVotes": 1450,
+      "ndaVotes": 500,
+      "jsVotes": 650,
+      "mgbVotes": 250,
+      "othersVotes": 50
+    },
+    "timestamp": "2025-11-03T18:30:45.123Z",
+    "submittedAt": "3/11/2025, 11:01:57 pm"
+  },
+  "complaintSubmission": {
+    "constituency": {
+      "key": "patna-sahib",
+      "name": "पटना साहिब",
+      "district": "पटना"
+    },
+    "booth": {
+      "name": "गांधी मैदान प्राथमिक विद्यालय",
+      "number": "001"
+    },
+    "pollingStation": {
+      "name": "मतदान केंद्र 1",
+      "number": "001-A",
+      "totalVoters": 1500
+    },
+    "user": {
+      "mobileNumber": "8302524658"
+    },
+    "complaint": {
+      "type": "EVM Tampering",
+      "remarks": "EVM machine showing incorrect counts after voting"
+    },
+    "timestamp": "2025-11-03T18:35:12.456Z",
+    "submittedAt": "3/11/2025, 11:05:12 pm"
+  }
+}
